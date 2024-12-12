@@ -31,7 +31,11 @@ services:
 
   frappe:
     image: frappe/bench:latest
-    command: sleep infinity
+    command: bash -c "
+    git clone -b version-15 https://github.com/frappe/frappe.git apps/frappe &&
+    cd apps/frappe &&
+    bench start
+  "
     environment:
       - SHELL=/bin/bash
     volumes:
