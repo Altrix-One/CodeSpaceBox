@@ -1,4 +1,5 @@
 version: "3.7"
+
 services:
   mariadb:
     image: mariadb:10.6
@@ -12,14 +13,6 @@ services:
     volumes:
       - mariadb-data:/var/lib/mysql
 
-  # Enable PostgreSQL only if you use it, see development/README.md for more information.
-  # postgresql:
-  #   image: postgres:11.8
-  #   environment:
-  #     POSTGRES_PASSWORD: 123
-  #   volumes:
-  #     - postgresql-data:/var/lib/postgresql/data
-
   redis-cache:
     image: redis:alpine
 
@@ -32,10 +25,13 @@ services:
   frappe:
     image: frappe/bench:latest
     command: bash -c "
-    git clone -b version-15 https://github.com/frappe/frappe.git apps/frappe &&
-    cd apps/frappe &&
-    bench start
-  "
+      git clone -b version-15 https://github.com/frappe/frappe.git apps/frappe &&
+      cd apps/frappe &&
+      cd .. &&
+      bench init --skip-redis-config-generation frappe-bench &&
+      bench get-app --branch version-15 https://github.com/frappe/frappe.git &&
+      bench start
+    "
     environment:
       - SHELL=/bin/bash
     volumes:
