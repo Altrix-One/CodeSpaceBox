@@ -39,5 +39,3 @@ bench new-site dev.altrixone --mariadb-user-host-login-scope='%' --admin-passwor
 bench --site dev.altrixone set-config developer_mode 1
 bench --site dev.altrixone clear-cache
 bench use dev.altrixone
-bench get-app https://github.com/fossunited/fossunited --branch develop
-bench --site dev.altrixone install-app fossunited
